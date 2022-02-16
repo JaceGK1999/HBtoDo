@@ -25,6 +25,11 @@ export async function deleteAllTodos() {
 }
 
 export async function getTodos() {
+    const response = await client
+        .from('todos')
+        .select()
+        .order('complete')
+        .match({ user_id: client.auth.user().id });
     // get all todos for this user from supabase
 
     return checkError(response);
