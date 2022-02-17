@@ -20,8 +20,6 @@ export async function createTodo(todo) {
 export async function deleteAllTodos() {
     await client.from('todos').delete().match({ user_id: client.auth.user().id });
     // delete all todos for this user in supabase
-
-    return checkError(response);
 }
 
 export async function getTodos() {
