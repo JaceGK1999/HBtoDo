@@ -37,7 +37,7 @@ async function displayTodos() {
     for (let todo of todos) {
         const todoEl = renderTodo(todo);
 
-        todoEl.addEventListener('click', async () => {
+        todosEl.addEventListener('click', async () => {
             await completeTodo(todo.id);
 
             displayTodos();
@@ -45,6 +45,7 @@ async function displayTodos() {
 
         todosEl.append(todoEl);
     }
+    displayTodos();
     // fetch the todos
     // display the list of todos
     // be sure to give each todo an event listener
@@ -52,8 +53,8 @@ async function displayTodos() {
 }
 
 // add an on load listener that fetches and displays todos on load
-window.addEventListener('load', async() => {
-    displayTodos();
+window.addEventListener('load', async () => {
+    await displayTodos();
 });
 
 logoutButton.addEventListener('click', () => {
