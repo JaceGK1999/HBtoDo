@@ -11,6 +11,7 @@ import { renderTodo } from '../render-utils.js';
 checkAuth();
 
 const todosEl = document.querySelector('.todos');
+// console.log(todosEl, 'todo test');
 const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
@@ -31,21 +32,21 @@ todoForm.addEventListener('submit', async (e) => {
 
 async function displayTodos() {
     const todos = await getTodos();
-
+    console.log(todos, 'todo test 2');
     todosEl.textContent = '';
 
     for (let todo of todos) {
         const todoEl = renderTodo(todo);
-
-        todosEl.addEventListener('click', async () => {
+        // console.log(todoEl, 'multi todos');
+        //console.log(todo, 'single todo');
+        todoEl.addEventListener('click', async () => {
+            console.log('clicked');
             await completeTodo(todo.id);
-
             displayTodos();
         });
-
         todosEl.append(todoEl);
     }
-    displayTodos();
+    // displayTodos();
     // fetch the todos
     // display the list of todos
     // be sure to give each todo an event listener
