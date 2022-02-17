@@ -1,28 +1,43 @@
-const SUPABASE_URL = 'https://gxwgjhfyrlwiqakdeamc.supabase.co';
+const SUPABASE_URL = 'https://uhmsxsfarryniihsuyry.supabase.co';
 const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNjQxMTMxMiwiZXhwIjoxOTUxOTg3MzEyfQ.PHekiwfLxT73qQsLklp0QFEfNx9NlmkssJFDnlvNIcA';
-
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVobXN4c2ZhcnJ5bmlpaHN1eXJ5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY0NDg1ODk5NSwiZXhwIjoxOTYwNDM0OTk1fQ.6nj7bcX8HwQyFQNgiIoCcY6u37Gv4ctD0Ivcfo9zsKQ';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function createTodo(todo) {
+    const response = await client
+        .from('todos')
+        .insert({
+            todo: todo,
+            complete: false,
+            user_id: client.auth.user().id,
+        })
+        .single();
     // create a single incomplete todo with the correct 'todo' property for this user in supabase
 
     return checkError(response);
 }
 
 export async function deleteAllTodos() {
+    await client.from('todos').delete().match({ user_id: client.auth.user().id });
     // delete all todos for this user in supabase
-
-    return checkError(response);
 }
 
 export async function getTodos() {
+    const response = await client
+        .from('todos')
+        .select()
+        .order('complete')
+        .match({ user_id: client.auth.user().id });
     // get all todos for this user from supabase
 
     return checkError(response);
 }
 
 export async function completeTodo(id) {
+    const response = await client.from('todos').update({ complete: true }).match({
+        user_id: client.auth.user().id,
+        id: id,
+    });
     // find the and update (set complete to true), the todo that matches the correct id
 
     return checkError(response);
